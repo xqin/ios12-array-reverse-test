@@ -1,0 +1,82 @@
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+
+<style>
+  body {
+    text-align: center;
+  }
+  input[type=button] {
+    width: 100px;
+    height: 50px;
+    margin: 10px;
+  }
+  pre {
+    font-size: 24px;
+  }
+</style>
+
+<pre id="output"></pre>
+
+
+<script>
+  function output (txt) {
+    document.getElementById('output').innerText += txt + '\n------------\n';
+  }
+  function clear () {
+    document.getElementById('output').innerText = ''
+  }
+</script>
+
+<script src="b.js"></script>
+
+<script>
+var a = [1, 2, 3]
+
+output(a.join('\n')) // 输出a
+output(b.join('\n')) // 输出b
+
+var d
+fetch('d.json').then(function(response) { // 异步加载的数据 的测试
+  return response.json();
+}).then((v) => {
+  d = v
+
+  output(d.join('\n'))
+})
+
+function display () {
+  clear()
+
+  output(a.join('\n')) // 输出a
+  output(b.join('\n')) // 输出b
+  output(c.join('\n')) // 输出a
+  output(d.join('\n')) // 输出b
+
+  setTimeout(() => {
+    location.reload(true)
+  }, 3000)
+}
+
+function test1 () {
+  a.reverse()
+  b.reverse()
+  c.reverse()
+  d.reverse()
+
+  display()
+}
+
+function test2 () {
+  a = a.slice().reverse()
+  b = b.slice().reverse()
+  c = c.slice().reverse()
+  d = d.slice().reverse()
+
+  display()
+}
+</script>
+
+<script src="c.js"></script>
+
+<input type="button" value="reverse" onclick="test1()" /><br/>
+<input type="button" value="slice.reverse" onclick="test2()" /><br/>
+<input type="button" value="reload" onclick="location.reload()" /><br/>
