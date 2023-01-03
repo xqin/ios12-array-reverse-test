@@ -18,12 +18,33 @@
 
 
 <script>
+  ;(function () {
+    if (/\(iPhone; CPU iPhone OS (\d+)_\d+ like Mac OS X\)/.test(navigator.userAgent) === false || RegExp.$1 !== '12') {
+      return;
+    }
+
+    var backup = Array.prototype.reverse;
+    Object.defineProperty(Array.prototype, 'reverse', {
+      enumerable: false,
+      value: function () {
+        this.length = this.length; // magic
+        return backup.apply(this, arguments);
+      }
+    });
+  })();
+
+
   function output (txt) {
     document.getElementById('output').innerText += txt + '\n------------\n';
   }
   function clear () {
     document.getElementById('output').innerText = ''
   }
+
+//Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/13.2b11866 Mobile/16B5059d Safari/605.1.15
+
+
+
 </script>
 
 <script src="b.js"></script>
@@ -33,6 +54,8 @@ var a = [1, 2, 3]
 
 output(a.join('\n')) // 输出a
 output(b.join('\n')) // 输出b
+
+// output(navigator.userAgent)
 
 var d
 fetch('d.json').then(function(response) { // 异步加载的数据 的测试
@@ -50,10 +73,6 @@ function display () {
   output(b.join('\n')) // 输出b
   output(c.join('\n')) // 输出a
   output(d.join('\n')) // 输出b
-
-  setTimeout(() => {
-    location.reload(true)
-  }, 3000)
 }
 
 function test1 () {
@@ -76,6 +95,7 @@ function test2 () {
 </script>
 
 <script src="c.js"></script>
+
 
 <input type="button" value="reverse" onclick="test1()" /><br/>
 <input type="button" value="slice.reverse" onclick="test2()" /><br/>
